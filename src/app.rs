@@ -19,9 +19,9 @@ struct GreetArgs<'a> {
 pub fn app() -> Html {
     let greet_input_ref = use_node_ref();
 
-    let name = use_state(|| String::new());
+    let name = use_state(String::new);
 
-    let greet_msg = use_state(|| String::new());
+    let greet_msg = use_state(String::new);
     {
         let greet_msg = greet_msg.clone();
         let name = name.clone();
@@ -33,7 +33,7 @@ pub fn app() -> Html {
                         return;
                     }
 
-                    let args = to_value(&GreetArgs { name: &*name }).unwrap();
+                    let args = to_value(&GreetArgs { name: &name }).unwrap();
                     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
                     let new_msg = invoke("greet", args).await.as_string().unwrap();
                     greet_msg.set(new_msg);
@@ -61,26 +61,6 @@ pub fn app() -> Html {
 
     html! {
         <main class="container">
-            <div class="row">
-                <a href="https://tauri.app" target="_blank">
-                    <img src="public/tauri.svg" class="logo tauri" alt="Tauri logo"/>
-                </a>
-                <a href="https://yew.rs" target="_blank">
-                    <img src="public/yew.png" class="logo yew" alt="Yew logo"/>
-                </a>
-            </div>
-
-            <p>{"Click on the Tauri and Yew logos to learn more."}</p>
-
-            <p>
-                {"Recommended IDE setup: "}
-                <a href="https://code.visualstudio.com/" target="_blank">{"VS Code"}</a>
-                {" + "}
-                <a href="https://github.com/tauri-apps/tauri-vscode" target="_blank">{"Tauri"}</a>
-                {" + "}
-                <a href="https://github.com/rust-lang/rust-analyzer" target="_blank">{"rust-analyzer"}</a>
-            </p>
-
             <form class="row" onsubmit={greet}>
                 <input id="greet-input" ref={greet_input_ref} placeholder="Enter a name..." />
                 <button type="submit">{"Greet"}</button>
