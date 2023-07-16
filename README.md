@@ -1,7 +1,7 @@
-# Tauri + Yew
+# Rust llama app
 
-This template should help get you started developing with Tauri and Yew.
+Chat bot (llama) written in rust using Yew and Tauri.
 
-## Recommended IDE Setup
+# Helpful Material
 
-[VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+1. [Build A Full Stack Chatbot in Rust (feat. Leptos & Rustformers)](https://www.youtube.com/watch?v=vAjle3c9Xqc)
