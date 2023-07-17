@@ -17,7 +17,11 @@ tauri = { version = "1.4", features = [ "fs-exists", "fs-read-file", "shell-open
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 rand = "0.8.5"
-llm = "0.1.1"
+# to allow ggml v3
+llm = { git = "https://github.com/rustformers/llm" , branch = "main" }
+
+[profile.dev.package.ggml-sys]
+opt-level = 3
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
