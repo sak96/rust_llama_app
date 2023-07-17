@@ -11,8 +11,8 @@ extern "C" {
 }
 
 #[derive(Serialize, Deserialize)]
-struct GreetArgs<'a> {
-    name: &'a str,
+struct ReplyArgs<'a> {
+    prompt: &'a str,
 }
 
 #[function_component(App)]
@@ -33,9 +33,9 @@ pub fn app() -> Html {
                         return;
                     }
 
-                    let args = to_value(&GreetArgs { name: &name }).unwrap();
+                    let args = to_value(&ReplyArgs { prompt: &name }).unwrap();
                     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-                    let new_msg = invoke("greet", args).await.as_string().unwrap();
+                    let new_msg = invoke("reply", args).await.as_string().unwrap();
                     greet_msg.set(new_msg);
                 });
 
