@@ -1,3 +1,4 @@
+pub mod api;
 mod app;
 
 use app::App;

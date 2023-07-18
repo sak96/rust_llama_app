@@ -1,26 +1,10 @@
-use serde::{Deserialize, Serialize};
-use serde_wasm_bindgen::to_value;
-use wasm_bindgen::prelude::*;
-use wasm_bindgen_futures::spawn_local;
+use crate::api::reply;
 use yew::prelude::*;
-
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = ["window", "__TAURI__", "tauri"])]
-    async fn invoke(cmd: &str, args: JsValue) -> JsValue;
-}
-
-#[derive(Serialize, Deserialize)]
-struct ReplyArgs<'a> {
-    prompt: &'a str,
-}
 
 #[function_component(App)]
 pub fn app() -> Html {
     let greet_input_ref = use_node_ref();
-
     let name = use_state(String::new);
-
     let greet_msg = use_state(String::new);
     {
         let greet_msg = greet_msg.clone();
@@ -28,23 +12,14 @@ pub fn app() -> Html {
         let name2 = name.clone();
         use_effect_with_deps(
             move |_| {
-                spawn_local(async move {
-                    if name.is_empty() {
-                        return;
-                    }
-
-                    let args = to_value(&ReplyArgs { prompt: &name }).unwrap();
-                    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-                    let new_msg = invoke("reply", args).await.as_string().unwrap();
-                    greet_msg.set(new_msg);
-                });
-
-                || {}
+                reply(
+                    (*name).clone(),
+                    Callback::from(move |input: String| greet_msg.set(input)),
+                )
             },
             name2,
         );
     }
-
     let greet = {
         let name = name.clone();
         let greet_input_ref = greet_input_ref.clone();
