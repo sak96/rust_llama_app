@@ -7,6 +7,10 @@ Chat bot (llama) written in rust using Yew and Tauri.
 - [x] Get llm model working
 - [x] Plug it in with UI
 - [ ] Chat UI
+  - have chat log
+  - have color for chat
+  - show typing indication, disable submit??
+  - make width smaller
 - [ ] Model Links
 - [ ] Model selection menu
   - [Tarui File chooser](https://docs.rs/tauri-api/latest/tauri_api/dialog/fn.select.html)
