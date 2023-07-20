@@ -2,6 +2,21 @@
 
 Chat bot (llama) written in rust using Yew and Tauri.
 
+!["AI: Rust is good"](screenshots/awesome-rust.png)
+
+# Usage
+
+1. Setup dev tools
+  ```
+  rustup target add wasm32-unknown-unknown
+  cargo install trunk tauri
+  ```
+1. Download a model from [here](https://huggingface.co/TheBloke/Wizard-Vicuna-7B-Uncensored-GGML)
+2. Run the following to run dev mode.
+  ```bash
+  MODEL_PATH="<path to model>"  cargo tauri dev
+  ```
+
 # Roadmap
 
 - [x] Get llm model working
