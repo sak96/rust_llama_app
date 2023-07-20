@@ -1,14 +1,21 @@
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq, Properties)]
+#[allow(non_snake_case)]
 pub struct ChatProps {
-    pub is_user: bool,
+    pub isUser: bool,
     pub content: String,
 }
 
 #[function_component(Chat)]
-pub fn chat(ChatProps { is_user, content }: &ChatProps) -> Html {
+pub fn chat(
+    ChatProps {
+        isUser: is_user,
+        content,
+    }: &ChatProps,
+) -> Html {
+    let class = if *is_user { "is-user" } else { "is-ai" };
     html! {
-        <div class={classes!(is_user.then_some("is-user"))}>{content}</div>
+        <div class={classes!(class)}>{content}</div>
     }
 }

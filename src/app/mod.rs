@@ -35,7 +35,7 @@ pub fn app() -> Html {
         <main class="container">
             {
                 chats.clone().borrow().iter().map(|(is_user, content)| html!{
-                    <Chat is_user={is_user} content={content.clone()}></Chat>
+                    <Chat isUser={is_user} content={content.clone()}></Chat>
                 }).collect::<Html>()
             }
             <div class="chat-box">
