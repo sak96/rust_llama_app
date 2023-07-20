@@ -4,9 +4,7 @@
 mod bot;
 use bot::ChatBot;
 use tauri::{async_runtime::Mutex, State};
-
-const MACHINE: &str = "### MACHINE ";
-const HUMAN: &str = "### HUMAN";
+     
 
 #[tauri::command]
 async fn reply(prompt: &str, state: State<'_, Mutex<ChatBot>>) -> Result<String, ()> {
