@@ -16,3 +16,6 @@ js-sys = "0.3"
 
 [workspace]
 members = ["src-tauri"]
+
+[package.metadata.cargo-machete]
+ignored = ["js-sys"] 
