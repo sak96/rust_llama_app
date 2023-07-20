@@ -34,6 +34,7 @@ pub fn app() -> Html {
     };
     let chat_bubble = use_style!(
         r#"
+        margin: 0.5rem;
         max-width: 80%;
         padding: 0.5rem;
         border-radius: 1rem;
