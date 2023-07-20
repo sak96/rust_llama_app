@@ -14,10 +14,11 @@ pub fn app() -> Html {
     let reply_chat = {
         let chats = chats.clone();
         let input_ref = input_ref.clone();
-        Callback::from(move |_| {
+        Callback::from(move |e: SubmitEvent| {
+            e.prevent_default();
             let chat_box = input_ref.cast::<web_sys::HtmlInputElement>().unwrap();
-            let user_reply = chat_box.value();
-            chat_box.set_value("");
+            let user_reply = chat_box.inner_text();
+            chat_box.set_inner_text("");
             let chats = chats.clone();
             let chat_trigger = chat_trigger.clone();
             chats.clone().borrow_mut().push((true, user_reply.clone()));
@@ -34,25 +35,23 @@ pub fn app() -> Html {
     let chat_bubble = use_style!(
         r#"
         max-width: 80%;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        border-radius: 10px;
-        padding: 5px;
+        padding: 0.5rem;
+        border-radius: 1rem;
         "#
     );
     let user_chat = use_style!(
         r#"
-        background-color: #358cf6;
+        background-color: #3388ff;
         align-self: self-end;
-        border-bottom-right-radius: 0px;
+        border-bottom-right-radius: 0;
         "#
     );
     let ai_chat = use_style!(
         r#"
         color: #000000;
-        background-color: #e2e2eb;
+        background-color: #e2e2e2;
         align-self: self-start;
-        border-bottom-left-radius: 0px;
+        border-bottom-left-radius: 0;
         "#
     );
     let chat = use_style!(
@@ -60,6 +59,31 @@ pub fn app() -> Html {
         display: flex;
         flex-grow: 1;
         flex-direction: column;
+        height: 100vh;
+        "#
+    );
+    let chat_box = use_style!(
+        r#"
+            display: flex;
+            border: 1px solid #3388ff;
+            border-radius: 1rem;
+            margin: 0.5rem;
+            justify-self: end;
+            flex-direction: row;
+            div {
+                outline: none;
+                border: none;
+                border-radius: 0.5rem;
+                background: none;
+                padding: 1rem;
+                flex: 1;
+            }
+            button {
+                background-color: #3388ff;
+                min-width: 10rem;
+                border: none;
+                border-radius: 1rem;
+            }
         "#
     );
 
@@ -71,10 +95,10 @@ pub fn app() -> Html {
                     html!{<Chat class={classes!(chat_bubble.clone(),class.clone())} content={content.clone()}></Chat>}
                 }).collect::<Html>()
             }
-            <div class="chat-box">
-                <input ref={input_ref} placeholder="Enter chat message..." />
-                <button onclick={reply_chat}>{"Send"}</button>
-            </div>
+            <form class={chat_box} onsubmit={reply_chat}>
+                <div contenteditable="plaintext-only" ref={input_ref} placeholder="Enter chat message..." />
+                <button >{"Send"}</button>
+            </form>
         </main>
     }
 }

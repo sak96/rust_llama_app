@@ -9,5 +9,5 @@ pub struct ChatProps {
 
 #[function_component(Chat)]
 pub fn chat(ChatProps { class, content }: &ChatProps) -> Html {
-    html! { <div class={class.clone()}>{content}</div> }
+    html! { <div class={class.clone()} ~innerText={content.clone()}/> }
 }
