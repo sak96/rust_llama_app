@@ -42,15 +42,15 @@ pub fn app() -> Html {
     );
     let user_chat = use_style!(
         r#"
-        background-color: #3388ff;
+        background-color: DodgerBlue;
         align-self: self-end;
         border-bottom-right-radius: 0;
         "#
     );
     let ai_chat = use_style!(
         r#"
-        color: #000000;
-        background-color: #e2e2e2;
+        color: Black;
+        background-color: GhostWhite;
         align-self: self-start;
         border-bottom-left-radius: 0;
         "#
@@ -66,7 +66,7 @@ pub fn app() -> Html {
     let chat_box = use_style!(
         r#"
             display: flex;
-            border: 1px solid #3388ff;
+            border: 1px solid DodgerBlue;
             border-radius: 1rem;
             margin: 0.5rem;
             justify-self: end;
@@ -80,7 +80,7 @@ pub fn app() -> Html {
                 flex: 1;
             }
             button {
-                background-color: #3388ff;
+                background-color: DodgerBlue;
                 min-width: 10rem;
                 border: none;
                 border-radius: 1rem;
