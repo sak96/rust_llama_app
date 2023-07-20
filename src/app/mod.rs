@@ -1,4 +1,5 @@
 use crate::api::reply;
+use stylist::yew::use_style;
 use yew::prelude::*;
 
 mod chat;
@@ -30,12 +31,44 @@ pub fn app() -> Html {
             )
         })
     };
+    let chat_bubble = use_style!(
+        r#"
+        max-width: 80%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        padding: 5px;
+        "#
+    );
+    let user_chat = use_style!(
+        r#"
+        background-color: #358cf6;
+        align-self: self-end;
+        border-bottom-right-radius: 0px;
+        "#
+    );
+    let ai_chat = use_style!(
+        r#"
+        color: #000000;
+        background-color: #e2e2eb;
+        align-self: self-start;
+        border-bottom-left-radius: 0px;
+        "#
+    );
+    let chat = use_style!(
+        r#"
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        "#
+    );
 
     html! {
-        <main class="container">
+        <main class={chat}>
             {
-                chats.clone().borrow().iter().map(|(is_user, content)| html!{
-                    <Chat isUser={is_user} content={content.clone()}></Chat>
+                chats.clone().borrow().iter().map(|(is_user, content)| {
+                    let class = if *is_user {&user_chat} else {&ai_chat};
+                    html!{<Chat class={classes!(chat_bubble.clone(),class.clone())} content={content.clone()}></Chat>}
                 }).collect::<Html>()
             }
             <div class="chat-box">
