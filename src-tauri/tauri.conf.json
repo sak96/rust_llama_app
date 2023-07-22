@@ -13,11 +13,12 @@
   "tauri": {
     "allowlist": {
       "all": false,
-      "shell": {
-        "all": false,
-        "open": true
+        "dialog": {
+          "all": true,
+          "open": true
       },
       "fs": {
+        "all": false,
         "readFile": true,
         "exists": true
       }

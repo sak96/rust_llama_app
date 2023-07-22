@@ -7,18 +7,24 @@ use tauri::{async_runtime::Mutex, State};
      
 
 #[tauri::command]
-async fn reply(message: &str, state: State<'_, Mutex<ChatBot>>) -> Result<String, ()> {
+async fn reply(message: &str, state: State<'_, Mutex<Option<ChatBot>>>) -> Result<String, &'static str> {
     let mut state = state.lock().await;
-    Ok(state.get_reply(message))
+    Ok(state.as_mut().ok_or("failed to load model")?.get_reply(message))
+}
+
+#[tauri::command]
+async fn load_model(path: &str, state: State<'_, Mutex<Option<ChatBot>>>) -> Result<bool, ()> {
+    // TODO: allow new to fail.
+    let model = ChatBot::new(&path.into());
+    let mut state = state.lock().await;
+    state.replace(model);
+    Ok(true)
 }
 
 fn main() {
-    // TODO: load this from UI
-    let model_path = std::env::var("MODEL_PATH").expect("MODEL_PATH must be set");
-    let bot = ChatBot::new(&model_path.into());
     tauri::Builder::default()
-        .manage(Mutex::new(bot))
-        .invoke_handler(tauri::generate_handler![reply])
+        .manage(Mutex::new(None as Option<ChatBot>))
+        .invoke_handler(tauri::generate_handler![reply, load_model])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

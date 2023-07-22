@@ -34,12 +34,12 @@ impl ChatBot {
         session
             .feed_prompt(
                 model,
-                &mut Default::default(),
+                &Default::default(),
                 PERSONA,
                 &mut Default::default(),
                 llm::feed_prompt_callback(|resp| match resp {
-                    llm::InferenceResponse::PromptToken(t)
-                    | llm::InferenceResponse::InferredToken(t) => {
+                    llm::InferenceResponse::PromptToken(_)
+                    | llm::InferenceResponse::InferredToken(_) => {
                         Ok::<llm::InferenceFeedback, Infallible>(llm::InferenceFeedback::Continue)
                     }
                     _ => Ok(llm::InferenceFeedback::Continue),
