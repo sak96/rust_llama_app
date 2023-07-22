@@ -4,7 +4,7 @@
 mod bot;
 use bot::ChatBot;
 use tauri::{async_runtime::Mutex, State};
-     
+
 
 #[tauri::command]
 async fn reply(message: &str, state: State<'_, Mutex<Option<ChatBot>>>) -> Result<String, &'static str> {
@@ -21,10 +21,15 @@ async fn load_model(path: &str, state: State<'_, Mutex<Option<ChatBot>>>) -> Res
     Ok(true)
 }
 
+#[tauri::command]
+async fn is_model_loaded(state: State<'_, Mutex<Option<ChatBot>>>) -> Result<bool, ()> {
+    Ok(state.lock().await.is_some())
+}
+
 fn main() {
     tauri::Builder::default()
         .manage(Mutex::new(None as Option<ChatBot>))
-        .invoke_handler(tauri::generate_handler![reply, load_model])
+        .invoke_handler(tauri::generate_handler![reply, load_model, is_model_loaded])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
