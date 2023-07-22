@@ -51,13 +51,6 @@ pub fn load_model(path: String, callback: Callback<bool>) {
     }
     spawn_local(async move {
         let args = to_value(&LoadModelArgs { path: path.clone() }).unwrap();
-        log(&format!("{:?}", &path));
         callback.emit(invoke("load_model", args).await.is_truthy())
     })
-}
-
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
 }
