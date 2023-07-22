@@ -13,6 +13,10 @@ enum AppState {
 #[function_component(App)]
 pub fn app() -> Html {
     let app_state = use_state(|| AppState::New);
+    let on_chat_close = {
+        let app_state = app_state.clone();
+        Callback::from(move |_| app_state.set(AppState::New))
+    };
     let load_model = {
         let app_state = app_state.clone();
         Callback::from(move |_| {
@@ -52,6 +56,6 @@ pub fn app() -> Html {
                 <h3>{"Loading Model"}</h3>
                 <progress /></>
         },
-        AppState::Chat => html! { <ChatWindow />},
+        AppState::Chat => html! { <ChatWindow closed={on_chat_close}/>},
     }
 }

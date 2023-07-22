@@ -3,8 +3,14 @@ use yew::prelude::*;
 
 use crate::api::reply;
 
+#[allow(non_camel_case_types)]
+#[derive(Properties, Clone, PartialEq)]
+pub struct ChatWindowProps {
+    pub closed: Callback<()>,
+}
+
 #[function_component(ChatWindow)]
-pub fn chat_window() -> Html {
+pub fn chat_window(ChatWindowProps { closed }: &ChatWindowProps) -> Html {
     let input_ref = use_node_ref();
     let is_replying = use_state(|| false);
     let chats = use_mut_ref(Vec::new);
@@ -33,6 +39,12 @@ pub fn chat_window() -> Html {
             }
         })
     };
+
+    let on_close = {
+        let closed = closed.clone();
+        Callback::from(move |_| closed.emit(()))
+    };
+
     let chat_bubble = use_style!(
         r#"
         margin: 0.5rem;
@@ -84,10 +96,15 @@ pub fn chat_window() -> Html {
                 content: attr(data-placeholder);
             }
             button {
-                background-color: DodgerBlue;
                 min-width: 10rem;
                 border: none;
                 border-radius: 1rem;
+            }
+            .submit-btn {
+                background-color: DodgerBlue;
+            }
+            .close-btn {
+                background-color: Tomato;
             }
         "#
     );
@@ -106,11 +123,12 @@ pub fn chat_window() -> Html {
                 </div>
             }
             <form class={chat_box} onsubmit={reply_chat}>
-                <div 
-                    contenteditable="plaintext-only" 
-                    ref={input_ref} 
+                <div
+                    contenteditable="plaintext-only"
+                    ref={input_ref}
                     data-placeholder="Enter chat message... Press Tab+Enter" />
-                <button disabled={*is_replying}>{"Send"}</button>
+                <button class="submit-btn" disabled={*is_replying}>{"Send"}</button>
+                <button class="close-btn" onclick={on_close}>{"Close Chat"}</button>
             </form>
         </main>
     }
