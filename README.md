@@ -14,21 +14,17 @@ Chat bot (llama) written in rust using Yew and Tauri.
 1. Download a model from [here](https://huggingface.co/TheBloke/Wizard-Vicuna-7B-Uncensored-GGML)
 2. Run the following to run dev mode.
   ```bash
-  MODEL_PATH="<path to model>"  cargo tauri dev
+  cargo tauri dev
   ```
+3. Select the model you downloaded.
 
 # Roadmap
 
-- [x] Get llm model working
-- [x] Plug it in with UI
 - [ ] Chat UI
   - have chat log
-  - have color for chat
-  - show typing indication, disable submit??
-  - make width smaller
-- [ ] Model Links
-- [ ] Model selection menu
-  - [Tarui File chooser](https://docs.rs/tauri-api/latest/tauri_api/dialog/fn.select.html)
+  - when chat submitted
+    - show typing indication
+    - disable father submit
 - [ ] Setup pipeline
 - [ ] Setup issue template
 
