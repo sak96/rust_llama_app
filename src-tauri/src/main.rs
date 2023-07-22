@@ -7,9 +7,9 @@ use tauri::{async_runtime::Mutex, State};
      
 
 #[tauri::command]
-async fn reply(prompt: &str, state: State<'_, Mutex<ChatBot>>) -> Result<String, ()> {
+async fn reply(message: &str, state: State<'_, Mutex<ChatBot>>) -> Result<String, ()> {
     let mut state = state.lock().await;
-    Ok(state.get_reply(prompt))
+    Ok(state.get_reply(message))
 }
 
 fn main() {

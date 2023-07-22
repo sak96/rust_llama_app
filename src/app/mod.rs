@@ -17,7 +17,11 @@ pub fn app() -> Html {
         Callback::from(move |e: SubmitEvent| {
             e.prevent_default();
             let chat_box = input_ref.cast::<web_sys::HtmlInputElement>().unwrap();
-            let user_reply = chat_box.inner_text();
+            let chat_box_content = chat_box.inner_text();
+            let user_reply = chat_box_content.trim().to_string();
+            if user_reply.is_empty() {
+                return;
+            }
             chat_box.set_inner_text("");
             let chats = chats.clone();
             let chat_trigger = chat_trigger.clone();

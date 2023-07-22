@@ -11,14 +11,14 @@ extern "C" {
 }
 
 
-pub fn reply(message: String, reply_callback: Callback<String>) {
+pub fn reply(message: String, callback: Callback<String>) {
     #[derive(Serialize)]
-    struct ReplyArgs<'a> {
-        prompt: &'a str,
+    struct ReplyArgs {
+        message: String,
     }
     spawn_local(async move {
-        let args = to_value(&ReplyArgs { prompt: &message }).unwrap();
+        let args = to_value(&ReplyArgs { message }).unwrap();
         let new_msg = invoke("reply", args).await.as_string().unwrap();
-        reply_callback.emit(new_msg);
+        callback.emit(new_msg);
     });
 }
