@@ -6,12 +6,13 @@ use crate::api::reply;
 #[function_component(ChatWindow)]
 pub fn chat_window() -> Html {
     let input_ref = use_node_ref();
-    let chat_trigger = use_force_update();
+    let is_replying = use_state(|| false);
     let chats = use_mut_ref(Vec::new);
 
     let reply_chat = {
         let chats = chats.clone();
         let input_ref = input_ref.clone();
+        let is_replying = is_replying.clone();
         Callback::from(move |e: SubmitEvent| {
             e.prevent_default();
             let chat_box = input_ref.cast::<web_sys::HtmlInputElement>().unwrap();
@@ -19,17 +20,16 @@ pub fn chat_window() -> Html {
             let user_reply = chat_box_content.trim().to_string();
             if !user_reply.is_empty() {
                 chat_box.set_inner_text("");
-                let chats = chats.clone();
-                let chat_trigger = chat_trigger.clone();
-                chats.clone().borrow_mut().push((true, user_reply.clone()));
-                chat_trigger.force_update();
-                reply(
-                    user_reply,
+                chats.borrow_mut().push((true, user_reply.clone()));
+                is_replying.set(true);
+                reply(user_reply, {
+                    let chats = chats.clone();
+                    let is_replying = is_replying.clone();
                     Callback::from(move |input: String| {
                         chats.clone().borrow_mut().push((false, input));
-                        chat_trigger.force_update()
-                    }),
-                )
+                        is_replying.set(false);
+                    })
+                })
             }
         })
     };
@@ -97,9 +97,14 @@ pub fn chat_window() -> Html {
                     html! { <div class={classes!(chat_bubble.clone(),class.clone())} ~innerText={content.clone()}/> }
                 }).collect::<Html>()
             }
+            if *is_replying {
+                <div class={classes!(ai_chat, chat_bubble)}>
+                    {"Replying:"} <progress />
+                </div>
+            }
             <form class={chat_box} onsubmit={reply_chat}>
                 <div contenteditable="plaintext-only" ref={input_ref} placeholder="Enter chat message..." />
-                <button >{"Send"}</button>
+                <button disabled={*is_replying}>{"Send"}</button>
             </form>
         </main>
     }
