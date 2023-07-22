@@ -22,6 +22,13 @@ async fn load_model(path: &str, state: State<'_, Mutex<Option<ChatBot>>>) -> Res
 }
 
 #[tauri::command]
+async fn unload_model(state: State<'_, Mutex<Option<ChatBot>>>) -> Result<(), ()> {
+    let mut state = state.lock().await;
+    state.take();
+    Ok(())
+}
+
+#[tauri::command]
 async fn is_model_loaded(state: State<'_, Mutex<Option<ChatBot>>>) -> Result<bool, ()> {
     Ok(state.lock().await.is_some())
 }
@@ -29,7 +36,7 @@ async fn is_model_loaded(state: State<'_, Mutex<Option<ChatBot>>>) -> Result<boo
 fn main() {
     tauri::Builder::default()
         .manage(Mutex::new(None as Option<ChatBot>))
-        .invoke_handler(tauri::generate_handler![reply, load_model, is_model_loaded])
+        .invoke_handler(tauri::generate_handler![reply, load_model, unload_model, is_model_loaded])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

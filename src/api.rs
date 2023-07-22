@@ -59,5 +59,10 @@ pub fn model_status(callback: Callback<bool>) {
     spawn_local(async move {
         callback.emit(invoke("is_model_loaded", JsValue::NULL).await.is_truthy())
     })
-    
+}
+
+pub fn unload_model() {
+    spawn_local(async move {
+        invoke("unload_model", JsValue::NULL).await;
+    })
 }

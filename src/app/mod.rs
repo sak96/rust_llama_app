@@ -1,4 +1,4 @@
-use crate::api::{load_model, model_status, prompt_path};
+use crate::api::{load_model, model_status, prompt_path, unload_model};
 use yew::prelude::*;
 
 mod chat;
@@ -15,7 +15,10 @@ pub fn app() -> Html {
     let app_state = use_state(|| AppState::New);
     let on_chat_close = {
         let app_state = app_state.clone();
-        Callback::from(move |_| app_state.set(AppState::New))
+        Callback::from(move |_| {
+            unload_model();
+            app_state.set(AppState::New)
+        })
     };
     {
         let app_state = app_state.clone();
