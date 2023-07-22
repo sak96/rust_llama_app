@@ -3,18 +3,6 @@ use yew::prelude::*;
 
 use crate::api::reply;
 
-#[derive(Clone, PartialEq, Properties)]
-#[allow(non_snake_case)]
-pub struct ChatProps {
-    pub class: Classes,
-    pub content: String,
-}
-
-#[function_component(Chat)]
-pub fn chat(ChatProps { class, content }: &ChatProps) -> Html {
-    html! { <div class={class.clone()} ~innerText={content.clone()}/> }
-}
-
 #[function_component(ChatWindow)]
 pub fn chat_window() -> Html {
     let input_ref = use_node_ref();
@@ -106,7 +94,7 @@ pub fn chat_window() -> Html {
             {
                 chats.clone().borrow().iter().map(|(is_user, content)| {
                     let class = if *is_user {&user_chat} else {&ai_chat};
-                    html!{<Chat class={classes!(chat_bubble.clone(),class.clone())} content={content.clone()}></Chat>}
+                    html! { <div class={classes!(chat_bubble.clone(),class.clone())} ~innerText={content.clone()}/> }
                 }).collect::<Html>()
             }
             <form class={chat_box} onsubmit={reply_chat}>
