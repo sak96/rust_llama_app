@@ -80,6 +80,9 @@ pub fn chat_window() -> Html {
                 padding: 1rem;
                 flex: 1;
             }
+            div:empty:before {
+                content: attr(data-placeholder);
+            }
             button {
                 background-color: DodgerBlue;
                 min-width: 10rem;
@@ -103,7 +106,10 @@ pub fn chat_window() -> Html {
                 </div>
             }
             <form class={chat_box} onsubmit={reply_chat}>
-                <div contenteditable="plaintext-only" ref={input_ref} placeholder="Enter chat message..." />
+                <div 
+                    contenteditable="plaintext-only" 
+                    ref={input_ref} 
+                    data-placeholder="Enter chat message... Press Tab+Enter" />
                 <button disabled={*is_replying}>{"Send"}</button>
             </form>
         </main>
