@@ -32,7 +32,10 @@ pub fn chat_window(ChatWindowProps { closed }: &ChatWindowProps) -> Html {
                     let chats = chats.clone();
                     let is_replying = is_replying.clone();
                     Callback::from(move |input: String| {
-                        chats.clone().borrow_mut().push((false, input));
+                        chats
+                            .clone()
+                            .borrow_mut()
+                            .push((false, input.trim().to_string()));
                         is_replying.set(false);
                     })
                 })
