@@ -20,11 +20,6 @@ Chat bot (llama) written in rust using Yew and Tauri.
 
 # Roadmap
 
-- [ ] Chat UI
-  - have chat log
-  - when chat submitted
-    - show typing indication
-    - disable father submit
 - [ ] Setup pipeline
 - [ ] Setup issue template
 
