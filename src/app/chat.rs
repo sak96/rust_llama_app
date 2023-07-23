@@ -91,11 +91,10 @@ pub fn chat_window(ChatWindowProps { closed }: &ChatWindowProps) -> Html {
             display: flex;
             border: 1px solid DodgerBlue;
             border-radius: 1rem;
-            margin: 0.5rem;
+            margin-bottom: 20px;
             justify-self: end;
             flex-direction: row;
             div {
-                margin: 1rem;
                 outline: none;
                 border: none;
                 border-radius: 0.5rem;
