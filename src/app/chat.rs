@@ -71,12 +71,19 @@ pub fn chat_window(ChatWindowProps { closed }: &ChatWindowProps) -> Html {
         border-bottom-left-radius: 0;
         "#
     );
+    let chat_window = use_style!(
+        r#"
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        "#
+    );
     let chat = use_style!(
         r#"
         display: flex;
         flex-grow: 1;
         flex-direction: column;
-        height: 100vh;
+        overflow: scroll;
         "#
     );
     let chat_box = use_style!(
@@ -88,6 +95,7 @@ pub fn chat_window(ChatWindowProps { closed }: &ChatWindowProps) -> Html {
             justify-self: end;
             flex-direction: row;
             div {
+                margin: 1rem;
                 outline: none;
                 border: none;
                 border-radius: 0.5rem;
@@ -113,18 +121,20 @@ pub fn chat_window(ChatWindowProps { closed }: &ChatWindowProps) -> Html {
     );
 
     html! {
-        <main class={chat}>
-            {
-                chats.clone().borrow().iter().map(|(is_user, content)| {
-                    let class = if *is_user {&user_chat} else {&ai_chat};
-                    html! { <div class={classes!(chat_bubble.clone(),class.clone())} ~innerText={content.clone()}/> }
-                }).collect::<Html>()
-            }
-            if *is_replying {
-                <div class={classes!(ai_chat, chat_bubble)}>
-                    {"Replying:"} <progress />
-                </div>
-            }
+        <main class={chat_window}>
+            <div class={chat}>
+                {
+                    chats.clone().borrow().iter().map(|(is_user, content)| {
+                        let class = if *is_user {&user_chat} else {&ai_chat};
+                        html! { <div class={classes!(chat_bubble.clone(),class.clone())} ~innerText={content.clone()}/> }
+                    }).collect::<Html>()
+                }
+                if *is_replying {
+                    <div class={classes!(ai_chat, chat_bubble)}>
+                        {"Replying:"} <progress />
+                    </div>
+                }
+            </div>
             <form class={chat_box} onsubmit={reply_chat}>
                 <div
                     contenteditable="plaintext-only"
