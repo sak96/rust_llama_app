@@ -18,4 +18,11 @@ js-sys = "0.3"
 members = ["src-tauri"]
 
 [package.metadata.cargo-machete]
-ignored = ["js-sys"] 
+ignored = ["js-sys"]
+
+# https://yew.rs/docs/advanced-topics/optimizations#cargotoml
+[profile.release]
+panic = 'abort' # less code to include into binary
+codegen-units = 1 # optimization over all codebase ( better optimization, slower build )
+opt-level = 's' # optimization for size
+lto = true # link time optimization using using whole-program analysis
