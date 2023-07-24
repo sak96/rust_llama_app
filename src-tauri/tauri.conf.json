@@ -28,7 +28,8 @@
       "targets": "all",
       "identifier": "sak96.github.io",
       "icon": [
-        "icons/icon.png"
+        "icons/icon.png",
+        "icons/icon.ico"
       ]
     },
     "security": {
