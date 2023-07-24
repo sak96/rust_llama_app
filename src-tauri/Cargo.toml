@@ -16,7 +16,7 @@ tauri-build = { version = "1.4", features = [] }
 tauri = { version = "1.4", features = [ "dialog-all", "fs-exists", "fs-read-file"] }
 rand = "0.8.5"
 # to allow ggml v3
-llm = { git = "https://github.com/rustformers/llm" , branch = "main" }
+llm = { git = "https://github.com/rustformers/llm" , rev="693e6c9a63160f5c24724ffc77bafa974dda3229" }
 
 [profile.dev.package.ggml-sys]
 opt-level = 3
