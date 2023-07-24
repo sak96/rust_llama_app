@@ -29,10 +29,19 @@ jobs:
       - name: Rust setup
         uses: dtolnay/rust-toolchain@stable
 
+      # Ref: https://github.com/tauri-apps/tauri-action/issues/307
+      - uses: jetli/trunk-action@v0.1.0
+        with:
+          version: "latest"
+
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
+
+      # Ref: https://github.com/tauri-apps/tauri-action/issues/307
+      - name: build in release mode
+        run: cargo build --release
 
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
